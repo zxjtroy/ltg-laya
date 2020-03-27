@@ -1,90 +1,6 @@
 import MathEx from "./MathEx";
 
-/**
- * 
- * 1、常用向量操作函数
- * 2、向量常量
- * 
- * merge log:
- *  2020.03.27 by zxjtroy
- *      1、增加了部分方向的静态向量常量，用于坐标赋值，临时向量等，不可被修改，可作为clone的原型
- *      2、增加了重置Transform信息的接口，用于reset Transform信息
- * 
- */
 export default class Vector3Ex {
-
-    protected static __temp__: Laya.Vector3;
-    protected static __up__: Laya.Vector3;
-    protected static __down__: Laya.Vector3;
-    protected static __forward__: Laya.Vector3;
-    protected static __zero__: Laya.Vector3;
-    protected static __one__: Laya.Vector3;
-
-    /**
-     * 临时向量，不能被持有，每次调用都会被清零
-     */
-    public static get temp(): Laya.Vector3 {
-        if (!Vector3Ex.__temp__) {
-            Vector3Ex.__temp__ = Vector3Ex.zero;
-        }
-        Vector3Ex.__temp__.setValue(0, 0, 0);
-        return Vector3Ex.__temp__;
-    }
-
-    /**
-     * y轴向上的静态向量，不可被修改，每次调用都会被重置回y轴向上
-     */
-    public static get s_up(): Laya.Vector3 {
-        if (!Vector3Ex.__up__) {
-            Vector3Ex.__up__ = Vector3Ex.up;
-        }
-        Vector3Ex.__up__.setValue(0, 1, 0);
-        return Vector3Ex.__up__;
-    }
-
-    /**
-     * y轴向下的静态向量，不可被修改，每次调用都会被重置回y轴向下
-     */
-    public static get s_down(): Laya.Vector3 {
-        if (!Vector3Ex.__down__) {
-            Vector3Ex.__down__ = Vector3Ex.down;
-        }
-        Vector3Ex.__down__.setValue(0, -1, 0);
-        return Vector3Ex.__down__;
-    }
-
-    /**
-     * z轴向前的静态向量，不可被修改，每次调用都会被重置回z轴向前
-     */
-    public static get s_forward(): Laya.Vector3 {
-        if (!Vector3Ex.__forward__) {
-            Vector3Ex.__forward__ = Vector3Ex.forward;
-        }
-        Vector3Ex.__forward__.setValue(0, 0, 1);
-        return Vector3Ex.__forward__;
-    }
-
-    /**
-     * 零向量的静态向量，不可被修改，每次调用都会被重置回零向量
-     */
-    public static get s_zero(): Laya.Vector3 {
-        if (!Vector3Ex.__zero__) {
-            Vector3Ex.__zero__ = Vector3Ex.zero;
-        }
-        Vector3Ex.__zero__.setValue(0, 0, 0);
-        return Vector3Ex.__zero__;
-    }
-
-    /**
-     * 模向量的静态向量，不可被修改，每次调用都会被重置回模向量
-     */
-    public static get s_one(): Laya.Vector3 {
-        if (!Vector3Ex.__one__) {
-            Vector3Ex.__one__ = Vector3Ex.one;
-        }
-        Vector3Ex.__one__.setValue(1, 1, 1);
-        return Vector3Ex.__one__;
-    }
 
     public static get up(): Laya.Vector3 {
         return new Laya.Vector3(0, 1, 0);
@@ -214,7 +130,7 @@ export default class Vector3Ex {
      * @param to 
      * @param asix 
      */
-    public static SignAngleAsix(from: Laya.Vector3, to: Laya.Vector3, asix: Laya.Vector3): number {
+    public static SignAngleAsix(from: Laya.Vector3, to: Laya.Vector3, asix: Laya.Vector3) : number {
         let normalAsix = Vector3Ex.Normalize(asix);
         let dotFrom = Vector3Ex.Dot(from, normalAsix);
         let wrapFrom = Vector3Ex.Subtract(from, Vector3Ex.Scale(normalAsix, dotFrom));
@@ -304,16 +220,6 @@ export default class Vector3Ex {
         let xt = Vector3Ex.Scale(startVelocity, time);
         let at2 = Vector3Ex.Scale(aSpeed, time * time / 2);
         return Vector3Ex.Add(xt, at2, startPos);
-    }
-
-    /**
-     * 重置空间信息
-     * @param trs 
-     */
-    public static InitialTransform(trs: Laya.Transform3D) {
-        trs.localPosition = Vector3Ex.s_zero;
-        trs.localScale = Vector3Ex.s_one;
-        trs.rotationEuler = Vector3Ex.s_zero;
     }
 
 }
